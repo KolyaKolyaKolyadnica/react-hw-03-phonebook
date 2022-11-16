@@ -1,9 +1,9 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
 
-import ContactForm from './contactForm';
-import ContactList from './contactList';
-import Filter from './filter';
+import ContactForm from './ContactForm';
+import ContactList from './ContactList';
+import Filter from './Filter';
 import style from './App.module.css';
 
 class App extends Component {
@@ -52,16 +52,24 @@ class App extends Component {
   };
 
   componentDidMount() {
-    const parsedLocalStorageContacts = JSON.parse(
-      localStorage.getItem('contacts')
-    );
-    if (parsedLocalStorageContacts) {
-      this.setState({ contacts: parsedLocalStorageContacts });
+    try {
+      const parsedLocalStorageContacts = JSON.parse(
+        localStorage.getItem('contacts')
+      );
+      if (parsedLocalStorageContacts) {
+        this.setState({ contacts: parsedLocalStorageContacts });
+      }
+    } catch (error) {
+      console.error('Error ', error);
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    try {
+      if (this.state.contacts !== prevState.contacts) {
+        localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+      }
+    } catch (error) {
+      console.error('Error ', error);
     }
   }
 
